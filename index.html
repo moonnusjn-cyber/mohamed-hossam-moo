@@ -6,103 +6,129 @@
     <title>Mohamed Hossam Social Platform</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0b141a; color: #e9edef; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 15px; }
-        .header { text-align: center; margin-bottom: 15px; }
-        .header h1 { color: #00a884; font-size: 22px; margin-bottom: 4px; }
-        .header p { color: #8696a0; font-size: 13px; }
+        body { background-color: #0b141a; color: #e9edef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 10px; }
         
-        .chat-container { width: 100%; max-width: 480px; background: #111b21; border-radius: 10px; display: flex; flex-direction: column; height: 85vh; border: 1px solid #222d34; }
+        .chat-app { width: 100%; max-width: 500px; height: 90vh; background: #111b21; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #222d34; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
         
-        .messages-area { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background-image: radial-gradient(#202c33 1px, transparent 0); background-size: 10px 10px; }
+        /* شريط العنوان العلوي */
+        .chat-header { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #222d34; }
+        .chat-header .avatar { width: 40px; height: 40px; background: #00a884; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #111b21; font-size: 18px; }
+        .chat-header .info h2 { font-size: 16px; color: #e9edef; }
+        .chat-header .info p { font-size: 12px; color: #8696a0; }
         
-        .msg-card { background: #202c33; padding: 10px 14px; border-radius: 8px; border-right: 4px solid #00a884; max-width: 85%; align-self: flex-start; word-break: break-word; }
-        .msg-card.me { align-self: flex-end; background: #005c4b; border-right: none; border-left: 4px solid #00a884; }
-        .sender-name { font-size: 12px; color: #53bdeb; font-weight: bold; margin-bottom: 4px; }
-        .msg-text { font-size: 14px; color: #e9edef; margin-bottom: 6px; }
-        .msg-link { display: inline-block; padding: 6px 12px; background: #00a884; color: #111b21; text-decoration: none; border-radius: 5px; font-size: 12px; font-weight: bold; }
-        .msg-time { font-size: 10px; color: #8696a0; text-align: left; margin-top: 4px; }
+        /* منطقة الرسائل المحادثة الجماعية */
+        .chat-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background-color: #0b141a; background-image: radial-gradient(#202c33 1px, transparent 0); background-size: 12px 12px; }
         
-        .input-area { padding: 12px; background: #202c33; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; display: flex; flex-direction: column; gap: 8px; }
-        .input-area input { padding: 10px; border-radius: 6px; border: 1px solid #2a3942; background: #111b21; color: #e9edef; font-size: 13px; outline: none; }
-        .input-area button { padding: 10px; background: #00a884; color: #111b21; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; }
-        .input-area button:hover { background: #029071; }
+        /* كروت الرسائل */
+        .message-bubble { background: #202c33; padding: 8px 12px; border-radius: 8px; max-width: 80%; width: fit-content; word-break: break-word; position: relative; }
+        .message-bubble.sender-me { align-self: flex-end; background: #005c4b; }
+        .message-bubble .user-name { font-size: 12px; color: #53bdeb; font-weight: bold; margin-bottom: 3px; }
+        .message-bubble .text { font-size: 14px; color: #e9edef; line-height: 1.4; }
+        .message-bubble .link-btn { display: inline-block; margin-top: 6px; padding: 6px 10px; background: #00a884; color: #111b21; text-decoration: none; border-radius: 5px; font-size: 12px; font-weight: bold; }
+        .message-bubble .time-stamp { font-size: 10px; color: #8696a0; text-align: left; margin-top: 4px; display: block; }
+        
+        /* منطقة إدخال البيانات والرسائل */
+        .chat-inputs { background: #202c33; padding: 12px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #222d34; }
+        .chat-inputs .row { display: flex; gap: 8px; }
+        .chat-inputs input { padding: 10px 14px; border-radius: 8px; border: 1px solid #2a3942; background: #111b21; color: #e9edef; font-size: 14px; outline: none; flex: 1; }
+        .chat-inputs input:focus { border-color: #00a884; }
+        .chat-inputs button { padding: 10px 18px; background: #00a884; color: #111b21; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; transition: 0.2s; }
+        .chat-inputs button:hover { background: #029071; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Mohamed Hossam Social Platform</h1>
-        <p>تطبيق التواصل والبث الفوري للجميع</p>
-    </div>
-
-    <div class="chat-container">
-        <div class="messages-area" id="messagesArea">
-            <!-- الرسائل والروابط تظهر هنا فوراً -->
+    <div class="chat-app">
+        <!-- هيدر الشات -->
+        <div class="chat-header">
+            <div class="avatar">MH</div>
+            <div class="info">
+                <h2>Mohamed Hossam Social Platform</h2>
+                <p>الشات الجماعي المباشر (الرسائل تصل للجميع)</p>
+            </div>
         </div>
 
-        <div class="input-area">
-            <input type="text" id="username" placeholder="اسمك">
-            <input type="text" id="msgText" placeholder="اكتب الرسالة...">
-            <input type="url" id="linkUrl" placeholder="رابط (اختياري) https://...">
-            <button onclick="sendMessage()">إرسال 🚀</button>
+        <!-- ساحة الشات المباشرة -->
+        <div class="chat-box" id="chatBox">
+            <!-- الرسائل بتظهر هنا فوراً -->
+        </div>
+
+        <!-- مدخلات كتابة الرسالة والإرسال -->
+        <div class="chat-inputs">
+            <input type="text" id="usernameInput" placeholder="اسمك في الشات (مثال: Mohamed Hossam)">
+            <div class="row">
+                <input type="text" id="messageInput" placeholder="اكتب رسالتك للجميع هنا...">
+                <button onclick="sendChatMessage()">إرسال 🚀</button>
+            </div>
+            <input type="url" id="linkInput" placeholder="رابط إضافي إن وجد (https://...)">
         </div>
     </div>
 
-    <!-- Firebase Scripts -->
+    <!-- مكتبات Firebase التشغيلية -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
+        // 1. بيانات الربط بقاعدة بيانات الفايربيس الخاصة بك
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
+            apiKey: "ضع_هنا_API_KEY",
             authDomain: "mohamed-hossam-23d46.firebaseapp.com",
             databaseURL: "https://mohamed-hossam-23d46-default-rtdb.firebaseio.com",
             projectId: "mohamed-hossam-23d46",
             storageBucket: "mohamed-hossam-23d46.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            messagingSenderId: "ضع_هنا_SENDER_ID",
+            appId: "ضع_هنا_APP_ID"
         };
 
+        // 2. تهيئة القاعدة
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        function sendMessage() {
-            const name = document.getElementById('username').value.trim() || 'مستخدم';
-            const text = document.getElementById('msgText').value.trim();
-            const link = document.getElementById('linkUrl').value.trim();
+        // 3. دالة إرسال الرسالة إلى الشات الجماعي
+        function sendChatMessage() {
+            const name = document.getElementById('usernameInput').value.trim() || 'مستخدم مجهول';
+            const message = document.getElementById('messageInput').value.trim();
+            const link = document.getElementById('linkInput').value.trim();
 
-            if (!text && !link) {
-                alert("اكتب رسالة أو أدخل رابطاً على الأقل!");
+            if (!message && !link) {
+                alert("يرجى كتابة رسالة أو إدخال رابط أولاً!");
                 return;
             }
 
-            database.ref('chat_messages').push({
+            // إرسال البيانات فوراً بقسم group_chat في قاعدة البيانات
+            database.ref('group_chat').push({
                 sender: name,
-                message: text,
+                text: message,
                 link: link,
-                timestamp: new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })
+                time: new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })
             });
 
-            document.getElementById('msgText').value = '';
-            document.getElementById('linkUrl').value = '';
+            // تفريغ خانات الرسائل
+            document.getElementById('messageInput').value = '';
+            document.getElementById('linkInput').value = '';
         }
 
-        database.ref('chat_messages').on('child_added', (snapshot) => {
+        // 4. الاستماع الفوري لرسائل جميع الأفراد وبثها للكل بدون Refresh
+        database.ref('group_chat').on('child_added', (snapshot) => {
             const data = snapshot.val();
-            const area = document.getElementById('messagesArea');
+            const chatBox = document.getElementById('chatBox');
+            const myName = document.getElementById('usernameInput').value.trim();
 
-            const card = document.createElement('div');
-            card.className = 'msg-card';
-            
-            card.innerHTML = `
-                <div class="sender-name">${data.sender}</div>
-                ${data.message ? `<div class="msg-text">${data.message}</div>` : ''}
-                ${data.link ? `<a href="${data.link}" target="_blank" class="msg-link">🔗 فتح الرابط</a>` : ''}
-                <div class="msg-time">${data.timestamp}</div>
+            const bubble = document.createElement('div');
+            // تمييز رسائل الشخص نفسه باللون الأخضر
+            const isMe = myName !== "" && data.sender === myName;
+            bubble.className = `message-bubble ${isMe ? 'sender-me' : ''}`;
+
+            bubble.innerHTML = `
+                <div class="user-name">${data.sender}</div>
+                ${data.text ? `<div class="text">${data.text}</div>` : ''}
+                ${data.link ? `<a href="${data.link}" target="_blank" class="link-btn">🔗 فتح الرابط المرفق</a>` : ''}
+                <span class="time-stamp">${data.time}</span>
             `;
 
-            area.appendChild(card);
-            area.scrollTop = area.scrollHeight;
+            chatBox.appendChild(bubble);
+            // التمرير التلقائي لآخر رسالة
+            chatBox.scrollTop = chatBox.scrollHeight;
         });
     </script>
 </body>
