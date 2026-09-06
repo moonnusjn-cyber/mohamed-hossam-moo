@@ -5,216 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mohamed Hossam Social Platform</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .header h1 {
-            color: #38bdf8;
-            font-size: 26px;
-            margin-bottom: 5px;
-        }
-        .header p {
-            color: #94a3b8;
-            font-size: 14px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0b141a; color: #e9edef; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 15px; }
+        .header { text-align: center; margin-bottom: 15px; }
+        .header h1 { color: #00a884; font-size: 22px; margin-bottom: 4px; }
+        .header p { color: #8696a0; font-size: 13px; }
         
-        .container {
-            width: 100%;
-            max-width: 500px;
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
+        .chat-container { width: 100%; max-width: 480px; background: #111b21; border-radius: 10px; display: flex; flex-direction: column; height: 85vh; border: 1px solid #222d34; }
         
-        .input-box {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .input-box input {
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #334155;
-            background: #0f172a;
-            color: white;
-            font-size: 14px;
-            outline: none;
-        }
-        .input-box input:focus {
-            border-color: #38bdf8;
-        }
-        .input-box button {
-            padding: 12px;
-            background: #0284c7;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 15px;
-        }
-        .input-box button:hover {
-            background: #0369a1;
-        }
+        .messages-area { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background-image: radial-gradient(#202c33 1px, transparent 0); background-size: 10px 10px; }
         
-        .feed-title {
-            margin-bottom: 15px;
-            font-size: 16px;
-            color: #cbd5e1;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 8px;
-        }
-        .feed {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
+        .msg-card { background: #202c33; padding: 10px 14px; border-radius: 8px; border-right: 4px solid #00a884; max-width: 85%; align-self: flex-start; word-break: break-word; }
+        .msg-card.me { align-self: flex-end; background: #005c4b; border-right: none; border-left: 4px solid #00a884; }
+        .sender-name { font-size: 12px; color: #53bdeb; font-weight: bold; margin-bottom: 4px; }
+        .msg-text { font-size: 14px; color: #e9edef; margin-bottom: 6px; }
+        .msg-link { display: inline-block; padding: 6px 12px; background: #00a884; color: #111b21; text-decoration: none; border-radius: 5px; font-size: 12px; font-weight: bold; }
+        .msg-time { font-size: 10px; color: #8696a0; text-align: left; margin-top: 4px; }
         
-        .card {
-            background: #334155;
-            padding: 15px;
-            border-radius: 8px;
-            border-right: 4px solid #38bdf8;
-            word-break: break-word;
-        }
-        .card .sender {
-            font-size: 13px;
-            color: #38bdf8;
-            margin-bottom: 6px;
-            font-weight: bold;
-        }
-        .card .text {
-            font-size: 14px;
-            margin-bottom: 10px;
-            color: #f1f5f9;
-        }
-        .card a {
-            display: inline-block;
-            padding: 8px 14px;
-            background: #38bdf8;
-            color: #0f172a;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-        .card a:hover {
-            background: #7dd3fc;
-        }
-        .card .time {
-            font-size: 10px;
-            color: #94a3b8;
-            margin-top: 10px;
-            text-align: left;
-        }
+        .input-area { padding: 12px; background: #202c33; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .input-area input { padding: 10px; border-radius: 6px; border: 1px solid #2a3942; background: #111b21; color: #e9edef; font-size: 13px; outline: none; }
+        .input-area button { padding: 10px; background: #00a884; color: #111b21; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .input-area button:hover { background: #029071; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>Mohamed Hossam Social Platform</h1>
-        <p>منصة التواصل - إرسال وبث الروابط المباشرة للجميع</p>
+        <p>تطبيق التواصل والبث الفوري للجميع</p>
     </div>
 
-    <div class="container">
-        <div class="input-box">
-            <input type="text" id="username" placeholder="اسمك (مثال: Mohamed Hossam)">
-            <input type="text" id="msgText" placeholder="اكتب وصفاً أو عنواناً للرابط...">
-            <input type="url" id="linkUrl" placeholder="أدخل الرابط (مثال: https://google.com)">
-            <button onclick="sendGlobalBroadcast()">بث الرابط للجميع 🚀</button>
+    <div class="chat-container">
+        <div class="messages-area" id="messagesArea">
+            <!-- الرسائل والروابط تظهر هنا فوراً -->
         </div>
 
-        <div class="feed-title">📢 البث المباشر (يصل لجميع المستخدمين)</div>
-        <div class="feed" id="feed">
-            <!-- الروابط والرسائل ستظهر هنا تلقائياً -->
+        <div class="input-area">
+            <input type="text" id="username" placeholder="اسمك">
+            <input type="text" id="msgText" placeholder="اكتب الرسالة...">
+            <input type="url" id="linkUrl" placeholder="رابط (اختياري) https://...">
+            <button onclick="sendMessage()">إرسال 🚀</button>
         </div>
     </div>
 
-    <!-- مكتبات Firebase الأساسية -->
+    <!-- Firebase Scripts -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        // 1. إعدادات الفايربيس الخاصة بمشروعك
         const firebaseConfig = {
-            apiKey: "ضع_هنا_API_KEY_الخاص_بك",
+            apiKey: "YOUR_API_KEY",
             authDomain: "mohamed-hossam-23d46.firebaseapp.com",
             databaseURL: "https://mohamed-hossam-23d46-default-rtdb.firebaseio.com",
             projectId: "mohamed-hossam-23d46",
             storageBucket: "mohamed-hossam-23d46.appspot.com",
-            messagingSenderId: "ضع_هنا_SENDER_ID",
-            appId: "ضع_هنا_APP_ID"
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
         };
 
-        // 2. تشغيل الفايربيس والربط بقاعدة البيانات
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // 3. وظيفة إرسال الرابط والرسالة للجميع
-        function sendGlobalBroadcast() {
-            const nameInput = document.getElementById('username').value.trim();
-            const textInput = document.getElementById('msgText').value.trim();
-            const linkInput = document.getElementById('linkUrl').value.trim();
+        function sendMessage() {
+            const name = document.getElementById('username').value.trim() || 'مستخدم';
+            const text = document.getElementById('msgText').value.trim();
+            const link = document.getElementById('linkUrl').value.trim();
 
-            const name = nameInput !== "" ? nameInput : "مستخدم مجهول";
-
-            if (!linkInput) {
-                alert("يرجى إدخال الرابط أولاً!");
+            if (!text && !link) {
+                alert("اكتب رسالة أو أدخل رابطاً على الأقل!");
                 return;
             }
 
-            // إرسال البيانات فوراً بقسم broadcasts في قاعدة البيانات
-            database.ref('broadcasts').push({
+            database.ref('chat_messages').push({
                 sender: name,
-                message: textInput,
-                link: linkInput,
+                message: text,
+                link: link,
                 timestamp: new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })
             });
 
-            // تفريغ الخانات بعد الإرسال
             document.getElementById('msgText').value = '';
             document.getElementById('linkUrl').value = '';
         }
 
-        // 4. الاستماع الفوري: أول ما أي حد يبعت لينك، يظهر لكل الناس بدون Refresh
-        database.ref('broadcasts').on('child_added', (snapshot) => {
+        database.ref('chat_messages').on('child_added', (snapshot) => {
             const data = snapshot.val();
-            const feed = document.getElementById('feed');
+            const area = document.getElementById('messagesArea');
 
-            const cardHtml = `
-                <div class="card">
-                    <div class="sender">👤 ${data.sender}</div>
-                    ${data.message ? `<div class="text">${data.message}</div>` : ''}
-                    <a href="${data.link}" target="_blank">🔗 فتح الرابط المرفق</a>
-                    <div class="time">${data.timestamp}</div>
-                </div>
+            const card = document.createElement('div');
+            card.className = 'msg-card';
+            
+            card.innerHTML = `
+                <div class="sender-name">${data.sender}</div>
+                ${data.message ? `<div class="msg-text">${data.message}</div>` : ''}
+                ${data.link ? `<a href="${data.link}" target="_blank" class="msg-link">🔗 فتح الرابط</a>` : ''}
+                <div class="msg-time">${data.timestamp}</div>
             `;
 
-            // إضافة الكارت في أعلى القائمة
-            feed.insertAdjacentHTML('afterbegin', cardHtml);
+            area.appendChild(card);
+            area.scrollTop = area.scrollHeight;
         });
     </script>
-
 </body>
 </html>
